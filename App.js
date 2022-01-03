@@ -1,6 +1,6 @@
 import { React } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
-import SignInScreen from './src/screens/SignInScreen/SignInScreen';
+import { Pressable, SafeAreaView, StyleSheet } from 'react-native';
+import SignInScreen from './src/screens/SignInScreen';
 
 const App = () => {
   return (
@@ -10,13 +10,17 @@ const App = () => {
   );
 }
 
+
+
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    alignItems: 'center',
-    marginTop: 200,
-    backgroundColor: 'white',
+    backgroundColor: '#333333',
   },
+  // text: {
+  //   fontWeight: 'bold',
+  //   color: 'white',
+  // },
 });
 
 
