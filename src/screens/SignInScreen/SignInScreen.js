@@ -3,40 +3,41 @@ import {View, Image, StyleSheet} from 'react-native';
 import Logo from '../../../assets/images/logo-blanc.png';
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton/CustomButton";
+import {API_URL} from "config-env";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-
-const SignInScreen = () => {
-
-    const [mail, setMail] = useState('');
+const SignInScreen = ({navigation}) => {
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    const onSignInPressed = () => {
-        console.warn('Sign in');
-    }
-    const test = () => {
-        // https://www.py4u.net/discuss/275663
-        // fetch('http://127.0.0.1:8000/calendar/dashboard/day-evenement/2022-01-03')
-        fetch('http://10.0.2.2:3000/users')
-        .then((response) => response.json())
-        .then((responseJson) => {
-            /*return responseJson.movies; */
-            alert("result:"+JSON.stringify(responseJson))
-            this.setState({
-                dataSource:this.state.dataSource.cloneWithRows(responseJson)
+    const register = () => {
+        if(email == '' || password == '') {
+            alert("Veuillez remplir les champs pour vous connecter.")
+        } 
+        else {
+            fetch(API_URL+'/api/auth/login', {
+                // 192.168.27.160 on phone
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json'
+                },
+                body:JSON.stringify({"email": email, "password": password})
             })
-         }).catch((error) => {
-             console.error(error);
-         });
+            .then(res => res.json())
+            .then(data => { AsyncStorage.setItem('token', data.token) })
+            .then(navigation.navigate("EventsScreen"))
+            .catch(err => { console.log(err) })
+        }
     }
+    
     return (
         <View style={styles.container}>
             <Image source={Logo} style={styles.logo}/>
 
             <CustomInput 
                 placeholder="Adresse mail" 
-                value={mail} 
-                setValue={setMail} 
+                value={email} 
+                setValue={setEmail} 
             />
             <CustomInput 
                 placeholder="Mot de passe" 
@@ -44,9 +45,7 @@ const SignInScreen = () => {
                 setValue={setPassword} 
                 secureTextEntry={true}
             />
-            <CustomButton text="Connexion" onPress={onSignInPressed} />
-            <CustomButton text="test ici" onPress={test} />
-
+            <CustomButton text="Connexion" onPress={register} />
         </View>
     )
 }
@@ -55,12 +54,12 @@ const SignInScreen = () => {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        marginTop: 200,
-        // backgroundColor: '#0d4220',
+        paddingTop: 200,
+        backgroundColor: '#333333',
     },
     logo: {
         maxHeight: 180,
-        maxWidth: 250,
+        maxWidth: 250
     }
 });
 

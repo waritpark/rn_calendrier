@@ -1,28 +1,26 @@
 import { React } from 'react';
-import { Pressable, SafeAreaView, StyleSheet } from 'react-native';
+import {SafeAreaView, StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignInScreen from './src/screens/SignInScreen';
+import EventsScreen from './src/screens/events';
 
-const App = () => {
-  return (
-    <SafeAreaView style={styles.root}>
-      <SignInScreen />
-    </SafeAreaView>
-  );
+const Stack = createNativeStackNavigator();
+
+export default function App() {
+  return(
+    <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Login" component={SignInScreen} />
+          <Stack.Screen options={{ headerShown: false }} name="EventsScreen" component={EventsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
 
-
-
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: '#333333',
-  },
-  // text: {
-  //   fontWeight: 'bold',
-  //   color: 'white',
-  // },
-});
-
-
-
-export default App;
+// const styles = StyleSheet.create({
+//   root: {
+//     flex: 1,
+//     backgroundColor: '#333333',
+//   },
+// });

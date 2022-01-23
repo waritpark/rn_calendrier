@@ -18,7 +18,7 @@ const CustomInput = ({value, setValue, placeholder, secureTextEntry}) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white',
+        backgroundColor: 'rgb(80,80,80)',
         borderColor: 'rgb(125, 125, 125)',
         borderWidth: 1,
         borderRadius: 5,
@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
         marginVertical: 15,
     },
     input: {
-        // textAlign: 'center',
         width: 180,
         color: 'white',
     }
