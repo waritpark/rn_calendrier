@@ -9,11 +9,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const SignInScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     const register = () => {
-        if(email == '' || password == '') {
-            alert("Veuillez remplir les champs pour vous connecter.")
-        } 
-        else {
+
             fetch(API_URL+'/api/auth/login', {
                 // 192.168.27.160 on phone
                 method: 'POST',
@@ -24,10 +22,13 @@ const SignInScreen = ({navigation}) => {
                 body:JSON.stringify({"email": email, "password": password})
             })
             .then(res => res.json())
-            .then(data => { AsyncStorage.setItem('token', data.token) })
+            .then(data => { 
+                console.log(data)
+                localStorage.setItem('token', data.token)
+            })
             .then(navigation.navigate("EventsScreen"))
             .catch(err => { console.log(err) })
-        }
+        
     }
     
     return (
@@ -37,7 +38,7 @@ const SignInScreen = ({navigation}) => {
             <CustomInput 
                 placeholder="Adresse mail" 
                 value={email} 
-                setValue={setEmail} 
+                setValue={setEmail}
             />
             <CustomInput 
                 placeholder="Mot de passe" 
@@ -63,4 +64,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SignInScreen
+export default SignInScreen;

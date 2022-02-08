@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const EventsScreen = ({navigation}) => {
     const [events, setEvents] = useState([]);
     try {
-        AsyncStorage.getItem('token').then(token => {        
+        localStorage.getItem('token').then(token => {        
             fetch(API_URL+'/api/auth/events', {
                 method: 'GET',
                 headers: {
@@ -16,8 +16,11 @@ const EventsScreen = ({navigation}) => {
                     'Authorization': 'Bearer ' + token
                 }
             })
-            .then(res => res.json(), console.log(token))
-            .then(data => { setEvents(data) })
+            .then(res => res.json())
+            .then(data => { 
+                setEvents(data);
+                alert(data);
+            })
             .catch(err => { console.log(err) })
         })
 
