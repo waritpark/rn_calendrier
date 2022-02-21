@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const SignInScreen = props => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     const register = () => {
         if(email == '' || password == '') {
             alert("Veuillez remplir les champs pour vous connecter.")
@@ -43,7 +44,7 @@ const SignInScreen = props => {
             <CustomInput 
                 placeholder="Adresse mail" 
                 value={email} 
-                setValue={setEmail} 
+                setValue={setEmail}
             />
             <CustomInput 
                 placeholder="Mot de passe" 
@@ -69,4 +70,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SignInScreen
+export default SignInScreen;

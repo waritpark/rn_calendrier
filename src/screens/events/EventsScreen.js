@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const EventsScreen = () => {
     // const start = new Date(item.start);
     const [events, setEvents] = useState([]);
+<<<<<<< HEAD
     AsyncStorage.getItem('token')
         .then(token=> {
             if (token !== null) {  
@@ -30,6 +31,24 @@ const EventsScreen = () => {
                     // console.log(data);
                 })
             }
+=======
+    try {
+        localStorage.getItem('token').then(token => {        
+            fetch(API_URL+'/api/auth/events', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+            .then(res => res.json())
+            .then(data => { 
+                setEvents(data);
+                alert(data);
+            })
+            .catch(err => { console.log(err) })
+>>>>>>> b9f488320d648f28df885de95b7b1a8f6c7a0ce3
         })
         .catch(err => { console.log('erreur ici eventsscreen',err) })
 
