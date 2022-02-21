@@ -6,7 +6,7 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import {API_URL} from "config-env";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SignInScreen = ({navigation}) => {
+const SignInScreen = props => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const register = () => {
@@ -14,19 +14,25 @@ const SignInScreen = ({navigation}) => {
             alert("Veuillez remplir les champs pour vous connecter.")
         } 
         else {
-            fetch(API_URL+'/api/auth/login', {
+            fetch('http://192.168.1.35:8000/api/auth/login', {
                 // 192.168.27.160 on phone
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-type': 'application/json'
+                    'Content-Type': 'application/json'
                 },
                 body:JSON.stringify({"email": email, "password": password})
             })
-            .then(res => res.json())
-            .then(data => { AsyncStorage.setItem('token', data.token) })
-            .then(navigation.navigate("EventsScreen"))
-            .catch(err => { console.log(err) })
+            .then(resultat => resultat.json())
+            .then(data => { 
+                AsyncStorage.setItem('token', data.token); 
+                // console.log('token setitem',data.token);
+                if (data.token !== null) {
+                    console.log('test si le token est pas null',data.token)
+                    props.navigation.navigate("EventsScreen")
+                }
+            })
+            .catch(err => { console.log('erreur ici signinscreen',err) })
         }
     }
     
